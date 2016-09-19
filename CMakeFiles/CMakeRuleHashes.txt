@@ -1,0 +1,6 @@
+# Hashes of file build rules.
+e556238edb26450ba0b64657c00b2ad7 src/CMakeFiles/bitalino_automoc
+a12d82806fbef6ec8d3d5cffd4979673 src/CommonBehavior.cpp
+cdc6c4e1130613424000a283d0b43371 src/DifferentialRobot.cpp
+e4c9da76a6409d029c3befd84aa19251 src/ui_dialogomac.h
+ac7d208f92d965c46e0ac304d2e713aa src/ui_mainwindow.h

@@ -1,0 +1,14 @@
+/home/gamusino/robocomp/components/bitalino/build/CMakeFiles/install.dir
+/home/gamusino/robocomp/components/bitalino/build/CMakeFiles/list_install_components.dir
+/home/gamusino/robocomp/components/bitalino/build/CMakeFiles/install/strip.dir
+/home/gamusino/robocomp/components/bitalino/build/CMakeFiles/install/local.dir
+/home/gamusino/robocomp/components/bitalino/build/CMakeFiles/rebuild_cache.dir
+/home/gamusino/robocomp/components/bitalino/build/CMakeFiles/edit_cache.dir
+/home/gamusino/robocomp/components/bitalino/build/src/CMakeFiles/install.dir
+/home/gamusino/robocomp/components/bitalino/build/src/CMakeFiles/list_install_components.dir
+/home/gamusino/robocomp/components/bitalino/build/src/CMakeFiles/rebuild_cache.dir
+/home/gamusino/robocomp/components/bitalino/build/src/CMakeFiles/bitalino.dir
+/home/gamusino/robocomp/components/bitalino/build/src/CMakeFiles/install/strip.dir
+/home/gamusino/robocomp/components/bitalino/build/src/CMakeFiles/install/local.dir
+/home/gamusino/robocomp/components/bitalino/build/src/CMakeFiles/edit_cache.dir
+/home/gamusino/robocomp/components/bitalino/build/src/CMakeFiles/bitalino_automoc.dir
