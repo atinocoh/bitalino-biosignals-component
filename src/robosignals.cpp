@@ -28,6 +28,9 @@ RoboSignals::RoboSignals(QWidget *parent) :
     bitDevice = NULL;
     pagina = 0;
     canalesAbiertos=0;
+
+    //Banderas booleanas, algunas de ellas redundantes, pues se puede evaluar la condicion en la interfaz
+    //(mil perdones)
     conectado=false;
     adquiriendo=false;
     filtroActivo=false;
@@ -63,6 +66,8 @@ RoboSignals::RoboSignals(QWidget *parent) :
     cmin=208;
     cmax=312;
 
+    //Establecemos el tamaño de las distintas areas de dibujo QWT
+
     plotEmgPpal.setAxisScale(QwtPlot::yLeft,-3.3,3.3,1.65);
     plotEmgPpal.setAxisScale(QwtPlot::xBottom,0,5999,500);
 
@@ -78,7 +83,6 @@ RoboSignals::RoboSignals(QWidget *parent) :
     plotEcgPpal.setAxisScale(QwtPlot::yLeft,-1.5,1.5,0.75);
     plotEcgPpal.setAxisScale(QwtPlot::xBottom,0,5999,500);
 
-
     plotAccXProcesado.setAxisScale(QwtPlot::yLeft,-3,3,1);
     plotAccXProcesado.setAxisScale(QwtPlot::xBottom,0,5999,500);
 
@@ -88,29 +92,27 @@ RoboSignals::RoboSignals(QWidget *parent) :
     plotAccZProcesado.setAxisScale(QwtPlot::yLeft,-3,3,1);
     plotAccZProcesado.setAxisScale(QwtPlot::xBottom,0,5999,500);
 
-
-
-
     plotEmgProcesado.setAxisScale(QwtPlot::yLeft,-3.3,3.3,0.66);
     plotEmgProcesado.setAxisScale(QwtPlot::xBottom,0,5999,500);
 
 
-
+    //En algunas de ellas, existe control de zoom
     double ejex =ui->maxValue->value() + (0.3*ui->maxValue->value());
+
     plotEmgPicos.setAxisScale(QwtPlot::yLeft,0,ejex,ejex/5);
     plotEmgPicos.setAxisScale(QwtPlot::xBottom,0,5999,500);
-
 
     plotEcgProcesado.setAxisScale(QwtPlot::yLeft,-1.5,1.5,0.75);
     plotEcgProcesado.setAxisScale(QwtPlot::xBottom,0,5999,500);
 
-
+    //Control de zoom
     double ejexEcg =ui->maxValueEcg->value() + (0.3*ui->maxValueEcg->value());
+
     plotEcgPicos.setAxisScale(QwtPlot::yLeft,0,ejexEcg,ejexEcg/5);
     plotEcgPicos.setAxisScale(QwtPlot::xBottom,0,5999,500);
 
 
-
+    //Asignamos los plot y el tamaño de las lineas en las distintas areas
     ui->plotEmgPpal->addWidget(&plotEmgPpal);
     plotEmgPpal.setLineWidth(2);
     plotEmgPpal.setMidLineWidth(3);
@@ -163,7 +165,7 @@ RoboSignals::RoboSignals(QWidget *parent) :
     plotEcgPicos.setMidLineWidth(3);
 
 
-
+    //Establecemos los fondos, color y patron
     plotEmgPpal.setCanvasBackground( Qt::white );
     grid = new QwtPlotGrid();
     grid->attach( &plotEmgPpal );
@@ -183,7 +185,6 @@ RoboSignals::RoboSignals(QWidget *parent) :
     plotEcgPpal.setCanvasBackground( Qt::white );
     gridEcgPpal = new QwtPlotGrid();
     gridEcgPpal->attach( &plotEcgPpal );
-
 
     plotAccXProcesado.setCanvasBackground( Qt::white );
     gridAccXProcesado = new QwtPlotGrid();
@@ -213,6 +214,8 @@ RoboSignals::RoboSignals(QWidget *parent) :
     gridEcgPicos = new QwtPlotGrid();
     gridEcgPicos->attach( &plotEcgPicos );
 
+
+    //Establecemos los marcadores verdes (lineas horizontales)
     markerEmg = new QwtPlotMarker("treshold");
     markerEmg->setLinePen(Qt::green,1);
     markerEmg->setYValue(this->ui->threshold->value());
@@ -256,6 +259,7 @@ RoboSignals::RoboSignals(QWidget *parent) :
     markerEcg->attach(&plotEcgPicos);
 
 
+    //Inicializacion de punteros
     curvaEmg=NULL;
     curvaEmgProcesada=NULL;
     curvaEmgPicos=NULL;
@@ -272,7 +276,7 @@ RoboSignals::RoboSignals(QWidget *parent) :
 
 
 
-
+    //Conectamos las señales de la interfaz
 
     connect(ui->nuevaMac,SIGNAL(clicked(bool)),this,SLOT(nuevaMac()));
 
@@ -350,32 +354,39 @@ RoboSignals::RoboSignals(QWidget *parent) :
     connect(ui->channelListCapture,SIGNAL(activated(int)),this,SLOT(seleccionarCaptura()));
 
 
+    //Conectamos los temporizadores
     connect(&readTimer,SIGNAL(timeout()),this,SLOT(readFrames()));
     connect(&relojBpm,SIGNAL(timeout()),this,SLOT(timeoutEcg()));
     connect(&relojCalibracion,SIGNAL(timeout()),this,SLOT(decrementarRelojCalibracion()));
-
     connect(&relojAcc,SIGNAL(timeout()),this,SLOT(lecturaAcc()));
 
 
-
+    //Captura de datos a disco inicialmente desactivada
     captura=false;
+
+    //Relojes detenidos inicialmente
     readTimer.stop();
     relojBpm.stop();
     relojCalibracion.stop();
     relojAcc.stop();
 
+    //Descriptores de acceso a ficheros
     t=NULL;
     fichero=NULL;
 
 
 }
 
+
+//Debemos establecer el puntero de tipo DifferentialRobotPrx para poder comunicarnos con el robot
 void RoboSignals::setDifferentialProxy(DifferentialRobotPrx *_differentialrobot_proxy){
 	differentialrobot_proxy=_differentialrobot_proxy;
         t = new ThreadDifferentialProxy(this->differentialrobot_proxy);
        t->start();
 
 }
+
+
 
 void RoboSignals::lecturaAcc(){
     relojAcc.stop();
@@ -1145,7 +1156,8 @@ void RoboSignals::stopMedia(){
     this->media=false;
     ui->stopAverage->setEnabled(false);
     ui->startAverage->setEnabled(true);
-    delete this->filtro;
+    if (filtro!=NULL)
+        delete filtro;
 }
 
 
@@ -1243,7 +1255,6 @@ void RoboSignals::procesarEmg(float senal[]){
             }
             for (int var = 0; var < 100; ++var) {
                 puntosEmgFiltrada<< QPointF(var+pagina*100,filtrada[var]);
-                 //std::cout<<var<<"  :  "<<filtrada[var]<<std::endl;
             }
             ultimoPuntoFiltrada=QPointF((99+pagina*100),filtrada[99]);
         }
@@ -1278,8 +1289,9 @@ void RoboSignals::procesarEmg(float senal[]){
     if (this->detectarPicos&&this->media){
 
         filtro->envolvente(mediaDownsample,envolvente,(float)ui->minValue->value());
-        if (!ultimoPuntoEnvolvente.isNull()&&ultimoPuntoEnvolvente.x()<this->pagina*100){
+        if (!ultimoPuntoEnvolvente.isNull()&&ultimoPuntoEnvolvente.x()<envolvente.at(0).x()&&(ultimoPuntoEnvolvente.x()<(pagina)*100)){
             *puntosEmgPicos<<this->ultimoPuntoEnvolvente;
+
         }
 
         for (int var = 0; var < envolvente.size(); ++var) {
@@ -1287,7 +1299,11 @@ void RoboSignals::procesarEmg(float senal[]){
                 delete puntosEmgPicos;
                 puntosEmgPicos = new QPolygonF();
             }
-            *puntosEmgPicos<< QPointF(envolvente.at(var).x(),envolvente.at(var).y());
+
+            if ((envolvente.at(var).x()<(pagina+1)*100)){
+                *puntosEmgPicos<< QPointF(envolvente.at(var).x(),envolvente.at(var).y());
+            }
+
             if ((!calibracionEmg)&&(envolvente.at(var).y()>ui->threshold->value()&&!picoDetectado)){
                 ui->peakDetected->setPixmap(QPixmap("./icons/green-led-on.png"));
                 this->contadorPicos++;
@@ -1312,8 +1328,8 @@ void RoboSignals::procesarEmg(float senal[]){
                 picoDetectado=false;
             }
         }
-        if (envolvente.size()>0)
-            this->ultimoPuntoEnvolvente=QPointF(envolvente.at(envolvente.size()-1).x(),envolvente.at(envolvente.size()-1).y());
+        this->ultimoPuntoEnvolvente=QPointF(envolvente.at(envolvente.size()-1).x(),envolvente.at(envolvente.size()-1).y());
+
     }
     if (this->calibracionEmg){
         calibrarEmg(*puntosEmgPicos);
@@ -1357,7 +1373,7 @@ void RoboSignals::procesarEcg(float senal[]){
             break;
         }
         if (this->mediaEcg==false){    //Filtro activo, media a falso, se pinta el resultado del filtro
-            if (!ultimoPuntoFiltradaEcg.isNull()&&ultimoPuntoFiltradaEcg.rx()<this->pagina*100){  //El codigo siguiente prepara el poligono que se desea pintar
+            if (!ultimoPuntoFiltradaEcg.isNull()&&ultimoPuntoFiltradaEcg.rx()<(this->pagina*100)){  //El codigo siguiente prepara el poligono que se desea pintar
                 puntosEcgFiltrada<<ultimoPuntoFiltradaEcg;   //Pintamos el ultimo punto del barrido anterior, siempre que se encuentre antes de nuestra pos actual
             }
             for (int var = 0; var < 100; ++var) {
@@ -1997,7 +2013,6 @@ void RoboSignals::readFrames()
             pagina=0;
 
         }
-
 
     }
     catch(BITalino::Exception &be){
