@@ -45,6 +45,7 @@ public:
     // Filtros de Butterworth para una frecuencia de muestreo de 1000 mps
     static void butterworth_PasoBajo_100hzs_Orden6(const float src[], float dest[], int size);
     static void butterworth_PasoBajo_40hzs_Orden6(const float src[], float dest[], int size);
+    static void butterworth_PasoBajo_50hzs_Orden6(const float src[], float dest[], int size);
     static void butterworth_PasoBanda_25_125hzs_Orden6(const float src[], float dest[], int size);
     static void mediaMovil(const double src[], double dest[], int size_src, int size_dst,int window);
     void envolvente(const float src[], float dest[],const float min, const int size);

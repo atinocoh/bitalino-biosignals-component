@@ -2463,6 +2463,7 @@ public:
         filterList->insertItems(0, QStringList()
          << QApplication::translate("RoboSignals", "Butterworth 6th Order 40Hzs ", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("RoboSignals", "Butterworth 6th Order 100Hzs ", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("RoboSignals", "Butterworth 6th Order 50Hzs", 0, QApplication::UnicodeUTF8)
         );
         startButterworth->setText(QString());
         stopButterworth->setText(QString());
@@ -2510,6 +2511,7 @@ public:
         filterListAcc->insertItems(0, QStringList()
          << QApplication::translate("RoboSignals", "Butterworth 6th Order 40Hzs ", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("RoboSignals", "Butterworth 6th Order 100Hzs ", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("RoboSignals", "Butterworth 6th Order 50Hzs", 0, QApplication::UnicodeUTF8)
         );
         startButterworthAcc->setText(QString());
         stopButterworthAcc->setText(QString());
@@ -2547,6 +2549,7 @@ public:
         filterListEcg->insertItems(0, QStringList()
          << QApplication::translate("RoboSignals", "Butterworth 6th Order 40Hzs ", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("RoboSignals", "Butterworth 6th Order 100Hzs ", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("RoboSignals", "Butterworth 6th Order 50Hzs", 0, QApplication::UnicodeUTF8)
         );
         startButterworthEcg->setText(QString());
         stopButterworthEcg->setText(QString());

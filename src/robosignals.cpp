@@ -1246,6 +1246,9 @@ void RoboSignals::procesarEmg(float senal[]){
         case 1:
             Filtro::butterworth_PasoBajo_100hzs_Orden6(senal,filtrada,100);
             break;
+        case 2:
+            Filtro::butterworth_PasoBajo_50hzs_Orden6(senal,filtrada,100);
+            break;
         default:
             break;
         }
@@ -1369,6 +1372,9 @@ void RoboSignals::procesarEcg(float senal[]){
         case 1:
             Filtro::butterworth_PasoBajo_100hzs_Orden6(senal,filtrada,100);
             break;
+        case 2:
+            Filtro::butterworth_PasoBajo_50hzs_Orden6(senal,filtrada,100);
+            break;
         default:
             break;
         }
@@ -1477,6 +1483,9 @@ void RoboSignals::procesarAcc(float senal[], int eje){
             break;
         case 1:
             Filtro::butterworth_PasoBajo_100hzs_Orden6(senal,filtrada,100);
+            break;
+        case 2:
+            Filtro::butterworth_PasoBajo_50hzs_Orden6(senal,filtrada,100);
             break;
         default:
             break;

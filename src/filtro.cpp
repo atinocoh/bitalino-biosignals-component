@@ -161,6 +161,30 @@ void Filtro::butterworth_PasoBajo_40hzs_Orden6(const float src[], float dest[], 
     }
 }
 
+
+void Filtro::butterworth_PasoBajo_50hzs_Orden6(const float src[], float dest[], int size)
+{
+    const int NZEROS = 6;
+    const int NPOLES = 6;
+    const double GAIN = 1.165969038e+05;
+    double xv[NZEROS+1] = {0.0}, yv[NPOLES+1] = {0.0};
+
+    for (int i = 0; i < size; i++)
+    {
+        xv[0] = xv[1]; xv[1] = xv[2]; xv[2] = xv[3]; xv[3] = xv[4]; xv[4] = xv[5]; xv[5] = xv[6];
+        xv[6] = src[i] / GAIN;
+        yv[0] = yv[1]; yv[1] = yv[2]; yv[2] = yv[3]; yv[3] = yv[4]; yv[4] = yv[5]; yv[5] = yv[6];
+        yv[6] =   (xv[0] + xv[6]) + 6 * (xv[1] + xv[5]) + 15 * (xv[2] + xv[4])
+                             + 20 * xv[3]
+                             + ( -0.2951724313 * yv[0]) + (  2.1290387500 * yv[1])
+                             + ( -6.4411118810 * yv[2]) + ( 10.4690788930 * yv[3])
+                             + ( -9.6495177287 * yv[4]) + (  4.7871354989 * yv[5]);
+        dest[i] = yv[6];
+    }
+}
+
+
+
 void Filtro::butterworth_PasoBanda_25_125hzs_Orden6(const float src[], float dest[], int size){
     const int NZEROS = 14;
     const int NPOLES = 14;
